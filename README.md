@@ -1,3 +1,3 @@
-# Code128 for Elm
+# Code128 Barcode Generator for Elm
 
-[Looking for maintainers](https://github.com/elm-community/Manifesto/issues/101).
+Looking for maintainers.
