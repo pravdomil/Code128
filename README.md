@@ -1,6 +1,6 @@
 # Code128
 
-Elm Barcode Generator for Code128.
+Elm barcode generator for Code 128.
 
 Looking for maintainers.
 
