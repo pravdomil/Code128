@@ -1,25 +1,25 @@
 module EncodeTest exposing (..)
 
-import Code128 exposing (..)
-import Expect exposing (Expectation)
-import Samples exposing (samples)
-import Test exposing (..)
+import Code128
+import Expect
+import Samples
+import Test
 
 
-suite : Test
+suite : Test.Test
 suite =
-    describe "Code128"
-        [ describe "encode"
+    Test.describe "Code128"
+        [ Test.describe "encode"
             tests
         ]
 
 
-tests : List Test
+tests : List Test.Test
 tests =
-    samples
+    Samples.samples
         |> List.indexedMap
             (\i ( a, b ) ->
-                test ("sample " ++ String.fromInt i ++ " \"" ++ a ++ "\"") <|
+                Test.test ("sample " ++ String.fromInt i ++ " \"" ++ a ++ "\"") <|
                     \_ ->
                         Code128.fromString a
                             |> Result.toMaybe
