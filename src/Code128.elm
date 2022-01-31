@@ -231,7 +231,7 @@ encodeC : List Char -> Result Error (List Symbol)
 encodeC a =
     a
         |> toTuples
-        |> Result.fromMaybe (OddNumberOfDigits)
+        |> Result.fromMaybe OddNumberOfDigits
         |> Result.andThen
             (\v ->
                 v
