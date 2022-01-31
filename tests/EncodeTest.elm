@@ -6,7 +6,6 @@ import Samples exposing (samples)
 import Test exposing (..)
 
 
-{-| -}
 suite : Test
 suite =
     describe "Code128"
@@ -15,7 +14,6 @@ suite =
         ]
 
 
-{-| -}
 tests : List Test
 tests =
     samples

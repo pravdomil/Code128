@@ -10,7 +10,6 @@ import Svg
 import Svg.Attributes
 
 
-{-| -}
 type alias Symbol =
     { value : Int
     , bars : Bars
@@ -20,12 +19,10 @@ type alias Symbol =
     }
 
 
-{-| -}
 type Bars
     = Bars6 Width Width Width Width Width Width
 
 
-{-| -}
 type Width
     = Width1
     | Width2
@@ -33,7 +30,6 @@ type Width
     | Width4
 
 
-{-| -}
 type Function
     = -- StartX starts code set.
       StartA
@@ -61,7 +57,6 @@ type Function
 --
 
 
-{-| -}
 type Error
     = OutOfCodeSet String
     | OddNumberOfDigits
@@ -71,7 +66,6 @@ type Error
 --
 
 
-{-| -}
 fromString : String -> Result Error (List Width)
 fromString a =
     let
@@ -91,7 +85,6 @@ fromString a =
             |> Result.map (\v -> (v |> List.concatMap (\vv -> barsToWidths vv.bars)) ++ [ Width2 ])
 
 
-{-| -}
 widthsToSvg : Int -> List Width -> Svg.Svg msg
 widthsToSvg height a =
     let
@@ -140,7 +133,6 @@ widthsToSvg height a =
 --
 
 
-{-| -}
 checkSum : List Symbol -> Symbol
 checkSum a =
     a
@@ -155,13 +147,11 @@ checkSum a =
            )
 
 
-{-| -}
 barsToWidths : Bars -> List Width
 barsToWidths (Bars6 a b c d e f) =
     [ a, b, c, d, e, f ]
 
 
-{-| -}
 widthToInt : Width -> Int
 widthToInt a =
     case a of
@@ -182,7 +172,6 @@ widthToInt a =
 --
 
 
-{-| -}
 encodeA : List Char -> Result Error (List Symbol)
 encodeA a =
     a
@@ -191,7 +180,6 @@ encodeA a =
         |> Result.map ((::) startA)
 
 
-{-| -}
 symbolFromCharA : Char -> Result Error Symbol
 symbolFromCharA a =
     table
@@ -204,7 +192,6 @@ symbolFromCharA a =
 --
 
 
-{-| -}
 encodeB : List Char -> Result Error (List Symbol)
 encodeB a =
     a
@@ -213,7 +200,6 @@ encodeB a =
         |> Result.map ((::) startB)
 
 
-{-| -}
 symbolFromCharB : Char -> Result Error Symbol
 symbolFromCharB a =
     table
@@ -226,7 +212,6 @@ symbolFromCharB a =
 --
 
 
-{-| -}
 encodeC : List Char -> Result Error (List Symbol)
 encodeC a =
     a
@@ -241,7 +226,6 @@ encodeC a =
             )
 
 
-{-| -}
 symbolFromCharC : ( Char, Char ) -> Result Error Symbol
 symbolFromCharC ( a, b ) =
     let
@@ -266,7 +250,6 @@ symbolFromCharC ( a, b ) =
             Err error
 
 
-{-| -}
 toTuples : List Char -> Maybe (List ( Char, Char ))
 toTuples a =
     case a of
@@ -284,7 +267,6 @@ toTuples a =
 --
 
 
-{-| -}
 table : List Symbol
 table =
     [ Symbol 0 (Bars6 Width2 Width1 Width2 Width2 Width2 Width2) (Char_ ' ') (Char_ ' ') (Digits 0 0)
@@ -397,25 +379,21 @@ table =
     ]
 
 
-{-| -}
 startA : Symbol
 startA =
     Symbol 103 (Bars6 Width2 Width1 Width1 Width4 Width1 Width2) StartA StartA StartA
 
 
-{-| -}
 startB : Symbol
 startB =
     Symbol 104 (Bars6 Width2 Width1 Width1 Width2 Width1 Width4) StartB StartB StartB
 
 
-{-| -}
 startC : Symbol
 startC =
     Symbol 105 (Bars6 Width2 Width1 Width1 Width2 Width3 Width2) StartC StartC StartC
 
 
-{-| -}
 stop : Symbol
 stop =
     Symbol 106 (Bars6 Width2 Width3 Width3 Width1 Width1 Width1) Stop Stop Stop
@@ -437,7 +415,6 @@ onError fn a =
             fn b
 
 
-{-| -}
 sequence : List (Result x a) -> Result x (List a)
 sequence a =
     a |> List.foldr (Result.map2 (::)) (Ok [])
