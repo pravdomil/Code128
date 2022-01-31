@@ -19,9 +19,10 @@ tests =
     Samples.samples
         |> List.indexedMap
             (\i ( a, b ) ->
-                Test.test ("sample " ++ String.fromInt i ++ " \"" ++ a ++ "\"") <|
-                    \_ ->
+                Test.test ("sample " ++ String.fromInt i ++ " \"" ++ a ++ "\"")
+                    (\_ ->
                         Code128.fromString a
                             |> Result.toMaybe
                             |> Expect.equal b
+                    )
             )
