@@ -5,9 +5,9 @@ module Code128 exposing (Error(..), Width(..), fromString, widthsToSvg)
 <https://hackage.haskell.org/package/barcodes-code128>
 -}
 
-import Html.Attributes exposing (attribute)
-import Svg exposing (Svg)
-import Svg.Attributes as Attributes
+import Html.Attributes
+import Svg
+import Svg.Attributes
 
 
 {-| -}
@@ -92,10 +92,10 @@ fromString a =
 
 
 {-| -}
-widthsToSvg : Int -> List Width -> Svg msg
+widthsToSvg : Int -> List Width -> Svg.Svg msg
 widthsToSvg height a =
     let
-        fold : Width -> ( List (Svg msg), Int ) -> ( List (Svg msg), Int )
+        fold : Width -> ( List (Svg.Svg msg), Int ) -> ( List (Svg.Svg msg), Int )
         fold width ( elements, x ) =
             let
                 width_ : Int
@@ -110,14 +110,14 @@ widthsToSvg height a =
                     else
                         "white"
 
-                element : Svg msg
+                element : Svg.Svg msg
                 element =
                     Svg.rect
-                        [ Attributes.x (x |> String.fromInt)
-                        , Attributes.y (0 |> String.fromInt)
-                        , Attributes.width (width_ |> String.fromInt)
-                        , Attributes.height (height |> String.fromInt)
-                        , Attributes.fill fill_
+                        [ Svg.Attributes.x (x |> String.fromInt)
+                        , Svg.Attributes.y (0 |> String.fromInt)
+                        , Svg.Attributes.width (width_ |> String.fromInt)
+                        , Svg.Attributes.height (height |> String.fromInt)
+                        , Svg.Attributes.fill fill_
                         ]
                         []
             in
@@ -129,8 +129,8 @@ widthsToSvg height a =
         |> List.foldl fold ( [], 0 )
         |> (\( elements, width ) ->
                 Svg.svg
-                    [ attribute "xmlns" "http://www.w3.org/2000/svg"
-                    , Attributes.viewBox ([ 0, 0, width, height ] |> List.map String.fromInt |> String.join " ")
+                    [ Html.Attributes.attribute "xmlns" "http://www.w3.org/2000/svg"
+                    , Svg.Attributes.viewBox ([ 0, 0, width, height ] |> List.map String.fromInt |> String.join " ")
                     ]
                     (elements |> List.reverse)
            )
