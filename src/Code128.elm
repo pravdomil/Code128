@@ -30,8 +30,8 @@ fromString a =
     else
         chars
             |> encodeC
-            |> onError (\_ -> encodeB chars)
-            |> onError (\_ -> encodeA chars)
+            |> resultOnErr (\_ -> encodeB chars)
+            |> resultOnErr (\_ -> encodeA chars)
             |> Result.map (\v -> v ++ [ checkSum v, stop ])
             |> Result.map (\v -> (v |> List.concatMap (\vv -> barsToWidths vv.bars)) ++ [ Width2 ])
 
@@ -409,8 +409,8 @@ stop =
 
 {-| Recover from a failure in a result.
 -}
-onError : (err -> Result err2 a) -> Result err a -> Result err2 a
-onError fn a =
+resultOnErr : (x -> Result y a) -> Result x a -> Result y a
+resultOnErr fn a =
     case a of
         Ok b ->
             Ok b
