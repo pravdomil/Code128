@@ -23,13 +23,6 @@ type Bars
     = Bars6 Width Width Width Width Width Width
 
 
-type Width
-    = Width1
-    | Width2
-    | Width3
-    | Width4
-
-
 type Function
     = -- StartX starts code set.
       StartA
@@ -64,6 +57,13 @@ type Error
 
 
 --
+
+
+type Width
+    = Width1
+    | Width2
+    | Width3
+    | Width4
 
 
 fromString : String -> Result Error (List Width)
