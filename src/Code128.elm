@@ -176,7 +176,7 @@ encodeA : List Char -> Result Error (List Symbol)
 encodeA a =
     a
         |> List.map symbolFromCharA
-        |> sequence
+        |> resultSequence
         |> Result.map ((::) startA)
 
 
@@ -196,7 +196,7 @@ encodeB : List Char -> Result Error (List Symbol)
 encodeB a =
     a
         |> List.map symbolFromCharB
-        |> sequence
+        |> resultSequence
         |> Result.map ((::) startB)
 
 
@@ -221,7 +221,7 @@ encodeC a =
             (\v ->
                 v
                     |> List.map symbolFromCharC
-                    |> sequence
+                    |> resultSequence
                     |> Result.map ((::) startC)
             )
 
@@ -415,6 +415,6 @@ onError fn a =
             fn b
 
 
-sequence : List (Result x a) -> Result x (List a)
-sequence a =
+resultSequence : List (Result x a) -> Result x (List a)
+resultSequence a =
     a |> List.foldr (Result.map2 (::)) (Ok [])
