@@ -10,55 +10,6 @@ import Svg
 import Svg.Attributes
 
 
-type alias Symbol =
-    { value : Int
-    , bars : Bars
-    , a : Function
-    , b : Function
-    , c : Function
-    }
-
-
-type Bars
-    = Bars6 Width Width Width Width Width Width
-
-
-type Function
-    = -- StartX starts code set.
-      StartA
-    | StartB
-    | StartC
-      -- CodeX changes code set.
-    | CodeA
-    | CodeB
-    | CodeC
-      -- ShiftX changes code set for following symbol.
-    | ShiftA
-    | ShiftB
-      -- FNCx is for special purposes.
-    | FNC1
-    | FNC2
-    | FNC3
-    | FNC4
-      -- Actual data.
-    | Char_ Char
-    | Digits Int Int
-    | Stop
-
-
-
---
-
-
-type Error
-    = OutOfCodeSet String
-    | OddNumberOfDigits
-
-
-
---
-
-
 type Width
     = Width1
     | Width2
@@ -129,8 +80,42 @@ widthsToSvg height a =
            )
 
 
+widthToInt : Width -> Int
+widthToInt a =
+    case a of
+        Width1 ->
+            1
+
+        Width2 ->
+            2
+
+        Width3 ->
+            3
+
+        Width4 ->
+            4
+
+
 
 --
+
+
+type Error
+    = OutOfCodeSet String
+    | OddNumberOfDigits
+
+
+
+--
+
+
+type alias Symbol =
+    { value : Int
+    , bars : Bars
+    , a : Function
+    , b : Function
+    , c : Function
+    }
 
 
 checkSum : List Symbol -> Symbol
@@ -147,25 +132,44 @@ checkSum a =
            )
 
 
+
+--
+
+
+type Bars
+    = Bars6 Width Width Width Width Width Width
+
+
 barsToWidths : Bars -> List Width
 barsToWidths (Bars6 a b c d e f) =
     [ a, b, c, d, e, f ]
 
 
-widthToInt : Width -> Int
-widthToInt a =
-    case a of
-        Width1 ->
-            1
 
-        Width2 ->
-            2
+--
 
-        Width3 ->
-            3
 
-        Width4 ->
-            4
+type Function
+    = -- StartX starts code set.
+      StartA
+    | StartB
+    | StartC
+      -- CodeX changes code set.
+    | CodeA
+    | CodeB
+    | CodeC
+      -- ShiftX changes code set for following symbol.
+    | ShiftA
+    | ShiftB
+      -- FNCx is for special purposes.
+    | FNC1
+    | FNC2
+    | FNC3
+    | FNC4
+      -- Actual data.
+    | Char_ Char
+    | Digits Int Int
+    | Stop
 
 
 
