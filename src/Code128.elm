@@ -32,8 +32,8 @@ fromString a =
             |> encodeC
             |> resultOnErr (\_ -> encodeB chars)
             |> resultOnErr (\_ -> encodeA chars)
-            |> Result.map (\v -> v ++ [ checkSum v, stop ])
-            |> Result.map (\v -> (v |> List.concatMap (\vv -> barsToWidths vv.bars)) ++ [ Width2 ])
+            |> Result.map (\x -> x ++ [ checkSum x, stop ])
+            |> Result.map (\x -> (x |> List.concatMap (\x2 -> barsToWidths x2.bars)) ++ [ Width2 ])
 
 
 widthsToSvg : Int -> List Width -> Svg.Svg msg
@@ -121,12 +121,12 @@ type alias Symbol =
 checkSum : List Symbol -> Symbol
 checkSum a =
     a
-        |> List.indexedMap (\i v -> v.value * max 1 i)
+        |> List.indexedMap (\i x -> x.value * max 1 i)
         |> List.foldl (+) 0
         |> remainderBy 103
-        |> (\v ->
+        |> (\x ->
                 table
-                    |> List.filter (\vv -> vv.value == v)
+                    |> List.filter (\x2 -> x2.value == x)
                     |> List.head
                     |> Maybe.withDefault stop
            )
@@ -187,7 +187,7 @@ encodeA a =
 symbolFromCharA : Char -> Result Error Symbol
 symbolFromCharA a =
     table
-        |> List.filter (\v -> v.a == Char_ a)
+        |> List.filter (\x -> x.a == Char_ a)
         |> List.head
         |> Result.fromMaybe (OutOfCodeSet (String.fromChar a))
 
@@ -207,7 +207,7 @@ encodeB a =
 symbolFromCharB : Char -> Result Error Symbol
 symbolFromCharB a =
     table
-        |> List.filter (\v -> v.b == Char_ a)
+        |> List.filter (\x -> x.b == Char_ a)
         |> List.head
         |> Result.fromMaybe (OutOfCodeSet (String.fromChar a))
 
@@ -222,8 +222,8 @@ encodeC a =
         |> toTuples
         |> Result.fromMaybe OddNumberOfDigits
         |> Result.andThen
-            (\v ->
-                v
+            (\x ->
+                x
                     |> List.map symbolFromCharC
                     |> resultSequence
                     |> Result.map ((::) startC)
@@ -246,7 +246,7 @@ symbolFromCharC ( a, b ) =
     case maybeFn of
         Just fn ->
             table
-                |> List.filter (\v -> v.c == fn)
+                |> List.filter (\x -> x.c == fn)
                 |> List.head
                 |> Result.fromMaybe error
 
@@ -261,7 +261,7 @@ toTuples a =
             Just []
 
         b :: c :: rest ->
-            rest |> toTuples |> Maybe.map (\v -> ( b, c ) :: v)
+            rest |> toTuples |> Maybe.map (\x -> ( b, c ) :: x)
 
         _ ->
             Nothing
